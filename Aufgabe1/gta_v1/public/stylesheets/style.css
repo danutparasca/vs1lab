@@ -49,7 +49,6 @@ legend {
   margin-bottom: 1rem;
   font-weight: bold;
 }
-
 /* ... your code here ... */
 
 
@@ -128,20 +127,12 @@ legend {
 }
 
 /* ### TODO ### Styles for Main Component */
-.main {
-  /*display: flex;
-  flex-wrap: wrap;
-  flex: auto;*/
-}
 
 /* ... your code here ... */
 
 
 /* ### TODO ### Styles for Tagging component */
 .tagging {
-  /*flex-grow: 1;
-  flex-shrink: 1;
-  flex-basis: 300px;*/
   padding: 1rem;
 }
 
@@ -157,11 +148,6 @@ legend {
   border-radius: 0.05rem;
 }
 
-/*#tag-form {
-  display: flex;
-  flex-direction: column;
-  
-}*/
 
 #tag-form label {
   margin-bottom: 0.5rem;
@@ -169,19 +155,9 @@ legend {
   display: block;
 }
 
-/*#tag-form input {
-  
-  margin-left: 0.75rem;
-  padding: 0.5rem;
-  
-  border: 0.1rem solid #cdcdcd;
-  border-radius: 0.25rem;
-*/
-
 fieldset {
   border: 0.1rem solid #cdcdcd;
   border-radius: 0.25rem;
-  /*width: 100%;*/
 }
 
 legend {
@@ -189,12 +165,8 @@ legend {
 }
 
 
-
 /* ### TODO ### Styles for Discovery component */
 .discovery {
-  /*flex-grow: 1;
-  flex-shrink: 1;
-  flex-basis: calc(100% - 300px);*/
   padding: 1rem;
 }
 
@@ -202,27 +174,19 @@ legend {
   margin-bottom: 1rem;
 }
 
-/*.discovery__wrapper {
-  display: flex;
-  flex-wrap: flex;
-}*/
-
 .discovery__search {
   margin-bottom: 0.5rem;
-  /*display: block;*/
 }
 
 .discovery__search label {
   margin-bottom: 0.5rem;
   margin-left: 0.75rem;
-  /*display: grid;*/
 }
 
 input {
   margin: 0.5rem;
   padding: 0.5rem;
   display: block;
-  /*width: 11.3rem;*/
   border: 0.1rem solid #cdcdcd;
   border-radius: 0.1rem;
   width: 100% - 3rem;
@@ -232,7 +196,6 @@ input {
   margin-bottom: 0.5rem;
   margin-left: 0.75rem;
   padding: 0.5rem;
-  /*width: 11.3rem;*/
   border: 0.1rem solid #cdcdcd;
   border-radius: 0.05rem;
 }
@@ -241,10 +204,6 @@ input {
   margin-right: 2rem;
   margin-top: 1rem;
   list-style-type: none;
-  /*display: inline-block;
-  flex-grow: 1;
-  flex-shrink: 1;
-  flex-basis: calc(50% - 0.5rem);*/
 }
 
 .discovery__results li {
@@ -258,15 +217,8 @@ input {
 .discovery__map {
   margin-top: 1rem;
   display: grid;
-  /*flex-grow: 1;
-  flex-shrink: 1;
-  flex-basis: calc(50% - 0.5rem);*/
 }
 
-
-/*.discovery__map span {
-  margin-top: 0.75rem;
-}*/
 
 /* ### TODO ### Styles for Footer Component */
 .footer {
