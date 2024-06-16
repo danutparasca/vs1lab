@@ -82,7 +82,7 @@ class InMemoryGeoTagStore{
      * @param {number} lon2 - The longitude of the second coordinate
      * @returns {number} The distance between the two coordinates in kilometers
      */
-    static calculateDistance(lat1, lon1, lat2, lon2) {
+    calculateDistance(lat1, lon1, lat2, lon2) {
         const R = 6371; // Earth's radius in km
         const dLat = (lat2 - lat1) * Math.PI / 180;
         const dLon = (lon2 - lon1) * Math.PI / 180;
