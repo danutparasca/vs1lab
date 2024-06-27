@@ -11,10 +11,8 @@
  */
 
 const express = require('express');
-const app = express();
 const router = express.Router();
-const path = require('path');
-app.use(express.static(path.join(__dirname, 'public')));
+
 /**
  * The module "geotag" exports a class GeoTagStore. 
  * It represents geotags.
@@ -23,7 +21,6 @@ app.use(express.static(path.join(__dirname, 'public')));
  */
 // eslint-disable-next-line no-unused-vars
 const GeoTag = require('../models/geotag');
-const LocationHelper = require('../public/javascripts/location-helper')
 
 /**
  * The module "geotag-store" exports a class GeoTagStore. 
@@ -32,10 +29,7 @@ const LocationHelper = require('../public/javascripts/location-helper')
  * TODO: implement the module in the file "../models/geotag-store.js"
  */
 // eslint-disable-next-line no-unused-vars
-const InMemoryGeoTagStore = require('../models/geotag-store');
-const geoTagStore = new InMemoryGeoTagStore();
-
-
+const GeoTagStore = require('../models/geotag-store');
 
 /**
  * Route '/' for HTTP 'GET' requests.
@@ -48,11 +42,7 @@ const geoTagStore = new InMemoryGeoTagStore();
 
 // TODO: extend the following route example if necessary
 router.get('/', (req, res) => {
-  const helpingTag = new GeoTag;
-  //helpingTag.latitude = 48.9374;
-  //helpingTag.longitude = 8.4027;
-  // TODO: sollte eigentlich die aktuelle Location sein, der LocHelper gönnt aber nichts außer errors EDIT: brauchen wir nicht?
-  res.render('index', { taglist: geoTagStore.getNearbyGeoTags(helpingTag, 1000), searchInput: ""})
+  res.render('index', { taglist: [] })
 });
 
 /**
@@ -71,10 +61,6 @@ router.get('/', (req, res) => {
  */
 
 // TODO: ... your code here ...
-router.post('/tagging', (req, res) => {
-  geoTagStore.addGeoTag(req.body);
-  res.render('index', { taglist: geoTagStore.getNearbyGeoTags(req.body, 1000), searchInput: ""})
-});
 
 /**
  * Route '/discovery' for HTTP 'POST' requests.
@@ -93,10 +79,5 @@ router.post('/tagging', (req, res) => {
  */
 
 // TODO: ... your code here ...
-router.post('/discovery', (req, res) => {
-  res.render('index', { taglist: geoTagStore.searchNearbyGeoTags(req.body, 1000), searchInput: req.body.keyword})
-});
 
-
-module.exports = geoTagStore;
 module.exports = router;
