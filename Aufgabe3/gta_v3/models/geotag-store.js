@@ -83,6 +83,10 @@ class InMemoryGeoTagStore{
         return deg * (Math.PI / 180);
     }
 
+    getAllGeoTags() {
+        return this.#allAvailableGeoTags;
+    }
+
 }
 
 module.exports = InMemoryGeoTagStore

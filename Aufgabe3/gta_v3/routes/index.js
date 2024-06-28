@@ -48,11 +48,7 @@ const geoTagStore = new InMemoryGeoTagStore();
 
 // TODO: extend the following route example if necessary
 router.get('/', (req, res) => {
-  const helpingTag = new GeoTag;
-  //helpingTag.latitude = 48.9374;
-  //helpingTag.longitude = 8.4027;
-  // TODO: sollte eigentlich die aktuelle Location sein, der LocHelper gönnt aber nichts außer errors EDIT: brauchen wir nicht?
-  res.render('index', { taglist: geoTagStore.getNearbyGeoTags(helpingTag, 1000), searchInput: ""})
+  res.render('index', { taglist: geoTagStore.getAllGeoTags(), searchInput: ""})
 });
 
 /**

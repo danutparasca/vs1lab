@@ -1,5 +1,7 @@
 // File origin: VS1LAB A2
 
+
+
 /* eslint-disable no-unused-vars */
 
 // This script is executed when the browser loads index.html.
@@ -29,15 +31,15 @@ class LocationHelper {
         return this.#longitude;
     }
 
-   /**
-    * Create LocationHelper instance if coordinates are known.
-    * @param {string} latitude 
-    * @param {string} longitude 
-    */
-   constructor(latitude, longitude) {
-       this.#latitude = (parseFloat(latitude)).toFixed(5);
-       this.#longitude = (parseFloat(longitude)).toFixed(5);
-   }
+    /**
+     * Create LocationHelper instance if coordinates are known.
+     * @param {string} latitude 
+     * @param {string} longitude 
+     */
+    constructor(latitude, longitude) {
+        this.#latitude = (parseFloat(latitude)).toFixed(5);
+        this.#longitude = (parseFloat(longitude)).toFixed(5);
+    }
 
     /**
      * The 'findLocation' method requests the current location details through the geolocation API.
@@ -62,7 +64,7 @@ class LocationHelper {
             // Pass the locationHelper object to the callback.
             callback(helper);
         }, (error) => {
-           alert(error.message)
+            alert(error.message)
         });
     }
 }
@@ -87,7 +89,8 @@ class MapManager {
         var mapLink = '<a href="http://openstreetmap.org">OpenStreetMap</a>';
         L.tileLayer(
             'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; ' + mapLink + ' Contributors'}).addTo(this.#map);
+            attribution: '&copy; ' + mapLink + ' Contributors'
+        }).addTo(this.#map);
         this.#markers = L.layerGroup().addTo(this.#map);
     }
 
@@ -104,9 +107,9 @@ class MapManager {
             .bindPopup("Your Location")
             .addTo(this.#markers);
         for (const tag of tags) {
-            L.marker([tag.location.latitude,tag.location.longitude])
+            L.marker([tag.latitude, tag.longitude])
                 .bindPopup(tag.name)
-                .addTo(this.#markers);  
+                .addTo(this.#markers);
         }
     }
 }
@@ -116,37 +119,51 @@ class MapManager {
  * A function to retrieve the current location and update the page.
  * It is called once the page has been fully loaded.
  */
+// ... your code here ...
 function updateLocation() {
 
-    // findlocation of Locationhelper called
-    LocationHelper.findLocation((location) => {
+
+    const latField = document.getElementById("latInput");
+    const longField = document.getElementById("longInput");
+    const tags = JSON.parse(document.getElementById("map").dataset.tags);
+    const discoveryLong = document.getElementById("discoveryLong");
+    const discoveryLat = document.getElementById("discoveryLat");
     
-        // Location found? = Update input fields with coordinates
-        document.getElementById('latitude').value = location.latitude;
-        document.getElementById('longitude').value = location.longitude;
 
-        // Update hidden input fields aswell
-        document.getElementById('search_latitude').value = location.latitude;
-        document.getElementById('search_longitude').value = location.longitude;
-        
-        const map = new MapManager();
-        
-        // Remove map image
-        mapViewImage = document.getElementById('mapView');
-        mapViewImage.remove();
+    if (latField.value != "" && longField.value != "" && discoveryLong.value != "" && discoveryLat.value != "") {
+       
+        const mapManager = new MapManager();
+        mapManager.initMap(latField.value, longField.value);
+        console.log("Tags:", tags)
+        mapManager.updateMarkers(latField.value, longField.value, tags);
+        removeElement("mapText");
+        removeElement("mapView");
+    } else {
+        LocationHelper.findLocation((helper) => {
+            discoveryLong.value = helper.longitude;
+            discoveryLat.value = helper.latitude;
+            latField.value = helper.latitude;
+            longField.value = helper.longitude;
 
-        // Remove "Result map" text
-        mapViewLabel = document.querySelector('.discovery__map span');
-        mapViewLabel.remove();
-        
-        // Initialise map & Update markers
-        map.initMap(location.latitude, location.longitude);
-        map.updateMarkers(location.latitude, location.longitude);
-        
-    });
+            const mapManager = new MapManager();
+            mapManager.initMap(helper.latitude, helper.longitude);
+            console.log("Tags:", tags)
+            mapManager.updateMarkers(helper.latitude, helper.longitude, tags);
+            removeElement("mapText");
+            removeElement("mapView");
+        });
+    }
 }
+
+
+
 
 // Wait for the page to fully load its DOM content, then call updateLocation
 document.addEventListener("DOMContentLoaded", () => {
     updateLocation();
 });
+
+function removeElement(id) {
+    var elem = document.getElementById(id);
+    return elem.parentNode.removeChild(elem);
+}

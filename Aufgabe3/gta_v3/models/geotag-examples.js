@@ -1,5 +1,7 @@
 // File origin: VS1LAB A3
 
+const InMemoryGeoTagStore = require("./geotag-store");
+
 /**
  * This script is a template for exercise VS1lab/Aufgabe3
  * Complete all TODOs in the code documentation.
@@ -10,9 +12,7 @@
  * 
  * TODO: populate your InMemoryGeoTagStore with these tags
  * 
-*/
-const InMemoryGeoTagStore = require("./geotag-store");
-
+ */
 class GeoTagExamples {
     /**
      * Provides some geoTag data

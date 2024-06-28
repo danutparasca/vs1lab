@@ -1,4 +1,3 @@
-<!-- TODO: HTML AUS AUFGABE2 HIERHER KOPIEREN UND DIE BEISPIEL-EINTRÄGE DER DISCOVERY-LISTE MIT DEN FOLGENDEN ZEILEN ERSETZEN -->
 
 <!DOCTYPE html>
 
@@ -9,14 +8,17 @@
 <head>
     <!-- Leaflet CSS and JavaScript (in this order) -->
     <link rel='stylesheet' href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css'
-        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+    crossorigin=""></script>
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GeoTagApp</title>
-    <link rel="stylesheet" href="./stylesheets/style.css" />
+    <link rel="stylesheet" type="text/css" href="./stylesheets/style.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
@@ -31,32 +33,23 @@
 
     <main class="main row">
         <section class="main__tagging tagging col-4">
-            <h2>Tagging</h2>
+            <h2 class="tagging-heading">Tagging</h2>
 
             <!-- ############### VS1Lab 1a Form 1 Start -->
             <form id="tag-form" action="/tagging" method="post">
-                <fieldset>
-                    <!-- ... your code here ... -->
-                    <legend>Add a new GeoTag</legend>
-
-                    <label for="latitude">Latitude:</label>
-                    <input type="text" id="latitude" placeholder="e.g. 100.0000" value="50.0000" readonly></input>
-
-                    <label for="longitude">Longitude:</label>
-                    <input type="text" id="longitude" placeholder="e.g. 20.0000" value="50.0000" readonly></input>
-
-                    <label for="name">Name:</label>
-                    <input type="text" id="name" placeholder="e.g. Central Berlin" pattern="[a-zA-Z]{1,10}"
-                        required></input>
-
-                    <label for="hashtag">Hashtag:</label>
-                    <input type="text" id="hashtag" placeholder="e.g. #ber" pattern="#[a-zA-Z]{1,10}"></input>
-
-                    <button type="submit">Add Tag</button>
-
+                <!-- ... your code here ... -->
+                <fieldset class="tagging_fieldset">
+                    <legend class="tagging_legend">Add a new GeoTag</legend>
+                    <label for="latInput">Latitude:</label><br>
+                    <input type="number" step="0.00000001" id="latInput" name="latitude" ><br>
+                    <label for="longInput">Longitude:</label><br>
+                    <input readonly type="number" id="longInput" name="longitude"><br>
+                    <label for="nameInput">Name:</label><br>
+                    <input maxlength="10" required placeholder="e.g. Berlin" type="text" id="nameInput" name="name"><br>
+                    <label for="hashInput">Hashtag:</label><br>
+                    <input name="hashtag" maxlength="10" pattern="^#.{0,10}$" title="Has to start with a #" placeholder="e.g. #ber" type="text" id="hashInput"><br>
+                    <input class="tagging_addButton" type="submit" id="addTagButton"  value="Add Tag">
                 </fieldset>
-
-
             </form>
             <!-- ############### VS1Lab 1a Form 1 End -->
 
@@ -69,52 +62,42 @@
             <form class="discovery__search" id="discoveryFilterForm" action="/discovery" method="post">
 
                 <!-- ... your code here ... -->
-                <fieldset>
-                    <legend>Search</legend>
-
-                    <label for="searchterm">Search term or keywords:</label>
-                    <input type="text" id="searchterm" placeholder="e.g. Berlin"></input>
-
-                    <input type="hidden" id="search_latitude" value="50.0000" readonly></input>
-
-                    <input type="hidden" id="search_longitude" value="50.0000" readonly></input>
-
-                    <button type="submit">Search</input>
-
+                <fieldset class="discovery_fieldset">
+                    <legend class="search_legend">Search</legend>
+                    <label for="searchInput">Search term or keywords:</label><br>
+                    <input placeholder="e.g. Berlin" type="text" id="searchInput" name="keyword" value="<%= searchInput %>"><br>
+                    <input type="hidden" id="discoveryLat" name="latitude" >
+                    <input type="hidden" id="discoveryLong" name="longitude" >
+                    <input type="submit" id="searchButton" value="Search">
                 </fieldset>
 
             </form>
             <!-- ############### VS1Lab 1a Form 2 End -->
 
             <div class="discovery__wrapper row">
-                <div class="discovery__taglist col-4">
+                <div class="discovery__taglist col-4" style="max-height: 500px; overflow: auto;">
                     <ul class="discovery__results" id="discoveryResults">
-                        <% if (taglist !==undefined) taglist.forEach(function(gtag) { %>
-                            <li>
-                                <%= gtag.name %> ( <%= gtag.latitude %>,<%= gtag.longitude %>) <%= gtag.hashtag %>
-                            </li>
+                        <% if (taglist !== undefined) taglist.forEach(function(gtag) { %>
+                            <li><%= gtag.name %> ( <%= gtag.latitude %>, <%= gtag.longitude %>) <%= gtag.hashtag %> </li>
                         <% }); %>
                     </ul>
                 </div>
 
-                <div class="discovery__map col-8" id="map">
+                <div class="discovery__map col-8" id="map" data-tags="<%= JSON.stringify(taglist) %>">
                     <img src="./images/mapview.jpg" alt="a map with locations" id="mapView" />
-                    <!-- Map -->
-                    <span>Result map</span>
+                    <span id="mapText">Result map</span>
                 </div>
             </div>
         </section>
+
     </main>
 
     <footer class="footer">
         <span>(c) 2021/22 HKA_IWI_VSYS</span>
     </footer>
-
     <!-- Load JavaScripts
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <script src="./javascripts/geotagging.js"></script>
-
+    <script type="module" src="./javascripts/geotagging.js"></script>
 </body>
-
 </html>
