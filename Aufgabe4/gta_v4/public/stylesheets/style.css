@@ -1,0 +1,245 @@
+html {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+
+  /* This approach prevents issues with 3rd party content-box components */
+  box-sizing: inherit;
+}
+
+
+/* Variables (example: see declaration for "a" below) */
+
+:root {
+  --link-color: #00B7FF;
+  --background-color: #efefef;
+  --border-color: #cdcdcd;
+  --gray-color: #666;
+}
+
+
+/* HTML element styles */
+
+body {
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+a {
+  color: var(--link-color);
+}
+
+/* ### TODO ### Styles for other HTML elements */
+
+/* ... your code here ... */
+legend {
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+/* Grid styles (no changes required) */
+
+.row {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  flex: 1;
+}
+
+.col-1 {
+  width: calc(8.33% - 1rem);
+}
+
+.col-2 {
+  width: calc(16.66% - 1rem);
+}
+
+.col-3 {
+  width: calc(25% - 1rem);
+}
+
+.col-4 {
+  width: calc(33.33% - 1rem);
+}
+
+.col-5 {
+  width: calc(41.66% - 1rem);
+}
+
+.col-6 {
+  width: calc(50% - 1rem);
+}
+
+.col-7 {
+  width: calc(58.33% - 1rem);
+}
+
+.col-8 {
+  width: calc(66.66% - 1rem);
+}
+
+.col-9 {
+  width: calc(75% - 1rem);
+}
+
+.col-10 {
+  width: calc(83.33% - 1rem);
+}
+
+.col-11 {
+  width: calc(91.66% - 1rem);
+}
+
+.col-12 {
+  width: calc(100% - 1rem);
+}
+
+
+/* ### TODO ### Styles for Header Component */
+
+/* ... your code here ... */
+.header{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2em;
+  background-color: #efefef;
+}
+
+.header__image{
+  height: 50px;
+  width: 50px;
+}
+
+
+/* ### TODO ### Styles for Main Component */
+
+/* ... your code here ... */
+
+
+
+/* ### TODO ### Styles for Tagging component */
+
+/* ... your code here ... */
+.tagging {
+  padding: 1rem;
+}
+
+.tagging_fieldset input {
+  margin: 0.5rem;
+  padding: 0.5rem;
+  display: block;
+  border: 0.1rem solid #cdcdcd;
+  border-radius: 0.1rem;
+  width: 100% - 3rem;
+}
+
+label {
+  margin-left: 0.75rem;
+  display: block;
+}
+
+.tagging_fieldset{
+  border: 0.1rem solid #cdcdcd;
+  border-radius: 0.25rem;
+}
+
+
+
+.tagging_addButton{
+  margin-bottom: 0.5rem;
+  margin-left: 0.75rem;
+  padding: 0.5rem;
+  border: 0.1rem solid #cdcdcd;
+  border-radius: 0.05rem;
+}
+.tagging-heading{
+  margin-bottom: 1rem;
+}
+
+.tagging_legend{
+    margin-left: 0.75rem;
+}
+
+/* ### TODO ### Styles for Discovery component */
+
+/* ... your code here ... */
+.discovery_fieldset{
+  border: 0.1rem solid #cdcdcd;
+  border-radius: 0.25rem;
+
+}
+
+.discovery_fieldset input{
+  margin: 0.5rem;
+  padding: 0.5rem;
+  display: block;
+  border: 0.1rem solid #cdcdcd;
+  border-radius: 0.1rem;
+  width: 100% - 3rem;
+  
+}
+
+.search_legend{
+  margin-left: 0.75rem;
+}
+
+.discovery__title{
+  margin-bottom: 1rem;
+}
+
+.main__discovery{
+  padding: 1rem;
+}
+
+.discovery__search{
+  margin-bottom: 0.5rem;
+}
+
+.discovery__wrapper{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.discovery__map{
+  margin-top: 1rem;
+  display: grid;
+}
+
+.discovery__results li {
+  color: #00B7FF;
+  background-color: #efefef;
+  margin-bottom: 0.5rem;
+  padding: 0.5rem;
+  outline: 0.05rem solid #cdcdcd;
+}
+
+
+/* ### TODO ### Styles for Footer Component */
+
+/* ... your code here ... */
+.footer{
+  background-color: #efefef;
+  padding: 1rem;
+}
+
+/* ### TODO ### Media Queries */
+@media screen and (max-width: 850px) {
+  .row {
+    flex-direction: column;
+  }
+  .col-3, .col-9, .col-4, .col-8{
+    width: 100%;
+  }
+}
+
+
+#map{
+  height: 500px;
+}

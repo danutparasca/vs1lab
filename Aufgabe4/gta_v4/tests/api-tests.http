@@ -1,0 +1,47 @@
+### Get all geotags
+GET http://localhost:3000/api/geotags
+Accept: application/json
+
+###
+
+### Add a new geotag
+POST http://localhost:3000/api/geotags
+Content-Type: application/json
+
+{
+    "name": "TestTag",
+    "latitude": 10,
+    "longitude": 20,
+    "hashtag": "#test"
+}
+
+###
+
+### Get a specific geotag by ID
+GET http://localhost:3000/api/geotags/1
+Accept: application/json
+
+###
+
+### Update a specific geotag by ID
+PUT http://localhost:3000/api/geotags/1
+Content-Type: application/json
+
+{
+    "name": "UpdatedTag",
+    "latitude": 10,
+    "longitude": 20,
+    "hashtag": "#updated"
+}
+
+###
+
+### Search for geotags near a location with a keyword
+GET http://localhost:3000/api/geotags?latitude=15&longitude=25&searchterm=test
+Accept: application/json
+
+### Delete a specific geotag by ID
+DELETE http://localhost:3000/api/geotags/1
+Accept: application/json
+
+###

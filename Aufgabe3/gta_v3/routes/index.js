@@ -23,7 +23,7 @@ app.use(express.static(path.join(__dirname, 'public')));
  */
 // eslint-disable-next-line no-unused-vars
 const GeoTag = require('../models/geotag');
-const LocationHelper = require('../public/javascripts/location-helper')
+//const LocationHelper = require('../public/javascripts/location-helper')
 
 /**
  * The module "geotag-store" exports a class GeoTagStore. 
@@ -94,5 +94,5 @@ router.post('/discovery', (req, res) => {
 });
 
 
-module.exports = geoTagStore;
+//module.exports = geoTagStore;
 module.exports = router;
