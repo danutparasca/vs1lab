@@ -28,9 +28,12 @@ const GeoTagExamples = require("./geotag-examples");
  */
 class InMemoryGeoTagStore{
     #allAvailableGeoTags = [];
+    #nextId = 1;
+
     constructor() {
         for (const element of GeoTagExamples.tagList) {
             const tag = new GeoTag(element[0], element[1], element[2], element[3]);
+            tag.id = this.#nextId++;
             this.#allAvailableGeoTags.push(tag);
         }
         console.log(this.#allAvailableGeoTags)
@@ -38,11 +41,12 @@ class InMemoryGeoTagStore{
 
     addGeoTag(geoTag){
         console.log("HIER", geoTag)
+        geoTag.id = this.#nextId++;
         this.#allAvailableGeoTags.push(geoTag);
     }
 
-    removeGeoTag(name){
-        this.#allAvailableGeoTags = this.#allAvailableGeoTags.filter(tag => tag.name !== name);
+    removeGeoTag(id){
+        this.#allAvailableGeoTags = this.#allAvailableGeoTags.filter(tag => tag.id !== id);
     }
 
     getNearbyGeoTags(geoTag, radius){
@@ -83,10 +87,24 @@ class InMemoryGeoTagStore{
         return deg * (Math.PI / 180);
     }
 
-
     getAllGeoTags() {
         return this.#allAvailableGeoTags;
     }
+
+    getGeoTagById(id) {
+        return this.#allAvailableGeoTags.find(tag => tag.id === id);
+    }
+
+    updateGeoTag(id, newGeoTag) {
+        const index = this.#allAvailableGeoTags.findIndex(tag => tag.id === id);
+        if (index !== -1) {
+            newGeoTag.latitude = parseFloat(newGeoTag.latitude).toFixed(5);
+            newGeoTag.longitude = parseFloat(newGeoTag.longitude).toFixed(5);
+            this.#allAvailableGeoTags[index] = { ...this.#allAvailableGeoTags[index], ...newGeoTag, id };
+            console.log("Updated GeoTag:", id, this.#allAvailableGeoTags[index]);
+        }
+    }
+
 
 }
 
