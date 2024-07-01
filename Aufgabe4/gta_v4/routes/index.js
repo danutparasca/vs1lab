@@ -113,9 +113,10 @@ router.get('/api/geotags', (req, res) => {
   }
 
   if (searchterm) {
-    results = results.filter(tag => 
+    /*results = results.filter(tag => 
       tag.name.includes(searchterm) || tag.hashtag.includes(searchterm)
-    );
+    );*/
+    results = geoTagStore.searchNearbyGeoTags({ latitude, longitude, keyword: searchterm }, 1000);
   }
 
   res.json(results);

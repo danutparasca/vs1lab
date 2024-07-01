@@ -120,19 +120,22 @@ class MapManager {
  * It is called once the page has been fully loaded.
  */
 // ... your code here ...
+var mapManager;
+var tags = [];
+
+
 function updateLocation() {
 
 
     const latField = document.getElementById("latInput");
     const longField = document.getElementById("longInput");
-    const tags = JSON.parse(document.getElementById("map").dataset.tags);
+    tags = JSON.parse(document.getElementById("map").dataset.tags);
     const discoveryLong = document.getElementById("discoveryLong");
     const discoveryLat = document.getElementById("discoveryLat");
 
 
     if (latField.value != "" && longField.value != "" && discoveryLong.value != "" && discoveryLat.value != "") {
-
-        const mapManager = new MapManager();
+        mapManager = new MapManager();
         mapManager.initMap(latField.value, longField.value);
         console.log("Tags:", tags)
         mapManager.updateMarkers(latField.value, longField.value, tags);
@@ -145,7 +148,7 @@ function updateLocation() {
             latField.value = helper.latitude;
             longField.value = helper.longitude;
 
-            const mapManager = new MapManager();
+            mapManager = new MapManager();
             mapManager.initMap(helper.latitude, helper.longitude);
             console.log("Tags:", tags)
             mapManager.updateMarkers(helper.latitude, helper.longitude, tags);
@@ -153,6 +156,8 @@ function updateLocation() {
             removeElement("mapView");
         });
     }
+
+
 }
 
 
@@ -162,7 +167,7 @@ function submitTaggingForm(event) {
     const name = document.getElementById("nameInput").value;
     const latitude = document.getElementById("latInput").value;
     const longitude = document.getElementById("longInput").value;
-    const hashtag = document.getElementById("hashtagInput").value;
+    const hashtag = document.getElementById("hashInput").value;
 
     const geoTag = {
         name: name,
@@ -182,7 +187,7 @@ function submitTaggingForm(event) {
     .then(data => {
         console.log("GeoTag created:", data);
         alert("GeoTag successfully created!");
-        updateLocation();
+        mapManager.updateMarkers(parseFloat(data.latitude), parseFloat(data.longitude), tags);
     })
     .catch(error => {
         console.error('Error:', error);
@@ -197,7 +202,7 @@ function submitTaggingForm(event) {
 function submitDiscoveryForm(event) {
     event.preventDefault();
 
-    const searchterm = document.getElementById("searchtermInput").value;
+    const searchterm = document.getElementById("searchInput").value;
     const latitude = document.getElementById("discoveryLat").value;
     const longitude = document.getElementById("discoveryLong").value;
 
@@ -211,7 +216,15 @@ function submitDiscoveryForm(event) {
     .then(response => response.json())
     .then(data => {
         console.log("GeoTags found:", data);
-        updateMapWithTags(data);
+        tags = data;
+        const element = document.getElementById("discoveryResults");
+        element.innerHTML = "";
+        tags.forEach(tag => {
+            const li = document.createElement("li");
+            li.textContent = `${tag.name} ( ${tag.latitude}, ${tag.longitude}) ${tag.hashtag}`;
+            element.appendChild(li);
+        })
+        mapManager.updateMarkers(parseFloat(latitude), parseFloat(longitude), tags);
     })
     .catch(error => {
         console.error('Error:', error);
@@ -227,8 +240,7 @@ function updateMapWithTags(tags) {
     const latitude = document.getElementById("discoveryLat").value;
     const longitude = document.getElementById("discoveryLong").value;
 
-    const mapManager = new MapManager();
-    mapManager.initMap(latitude, longitude);
+   
     mapManager.updateMarkers(latitude, longitude, tags);
 }
 
@@ -237,8 +249,8 @@ function updateMapWithTags(tags) {
 // Wait for the page to fully load its DOM content, then call updateLocation
 document.addEventListener("DOMContentLoaded", () => {
     updateLocation();
-    document.getElementById("taggingForm").addEventListener("submit", submitTaggingForm);
-    document.getElementById("discoveryForm").addEventListener("submit", submitDiscoveryForm);
+    document.getElementById("tag-form").addEventListener("submit", submitTaggingForm);
+    document.getElementById("discoveryFilterForm").addEventListener("submit", submitDiscoveryForm);
 });
 
 function removeElement(id) {
