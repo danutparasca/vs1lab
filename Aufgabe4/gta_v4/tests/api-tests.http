@@ -10,8 +10,8 @@ Content-Type: application/json
 
 {
     "name": "TestTag",
-    "latitude": 10,
-    "longitude": 20,
+    "latitude": 49.01380,
+    "longitude": 8.39080,
     "hashtag": "#test"
 }
 

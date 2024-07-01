@@ -156,51 +156,93 @@ function updateLocation() {
 }
 
 
+function submitTaggingForm(event) {
+    event.preventDefault();
+
+    const name = document.getElementById("nameInput").value;
+    const latitude = document.getElementById("latInput").value;
+    const longitude = document.getElementById("longInput").value;
+    const hashtag = document.getElementById("hashtagInput").value;
+
+    const geoTag = {
+        name: name,
+        latitude: latitude,
+        longitude: longitude,
+        hashtag: hashtag
+    };
+
+    fetch('/api/geotags', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(geoTag)
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log("GeoTag created:", data);
+        alert("GeoTag successfully created!");
+        updateLocation();
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert("An error occurred while creating the GeoTag.");
+    });
+}
+
+/**
+ * Handle Discovery Form Submission
+ * @param {Event} event 
+ */
+function submitDiscoveryForm(event) {
+    event.preventDefault();
+
+    const searchterm = document.getElementById("searchtermInput").value;
+    const latitude = document.getElementById("discoveryLat").value;
+    const longitude = document.getElementById("discoveryLong").value;
+
+    const queryParams = new URLSearchParams({
+        searchterm: searchterm,
+        latitude: latitude,
+        longitude: longitude
+    });
+
+    fetch(`/api/geotags?${queryParams.toString()}`)
+    .then(response => response.json())
+    .then(data => {
+        console.log("GeoTags found:", data);
+        updateMapWithTags(data);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert("An error occurred while fetching the GeoTags.");
+    });
+}
+
+/**
+ * Update the map with new tags
+ * @param {Array} tags 
+ */
+function updateMapWithTags(tags) {
+    const latitude = document.getElementById("discoveryLat").value;
+    const longitude = document.getElementById("discoveryLong").value;
+
+    const mapManager = new MapManager();
+    mapManager.initMap(latitude, longitude);
+    mapManager.updateMarkers(latitude, longitude, tags);
+}
+
 
 
 // Wait for the page to fully load its DOM content, then call updateLocation
 document.addEventListener("DOMContentLoaded", () => {
     updateLocation();
-
-    const taggingForm = document.getElementById("tag-form");
-    const discoveryForm = document.getElementById("discoveryFilterForm");
-
-    //tagform listener
-
-    taggingForm.addEventListener("submit", async (event) => {
-        event.preventDefault();
-
-        const response = await fetch('/api/geotags', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                latitude: document.getElementById("latInput").value,
-                longitude: document.getElementById("longInput").value,
-                name: document.getElementById("nameInput").value,
-                hashtag: document.getElementById("hashInput").value
-            })
-        })
-
-        const taglist = await response.json();
-        //updateLocation();
-    })
-
-    discoveryForm.addEventListener("submit", async (event) => {
-        var searchterm = document.getElementById("searchInput").value;
-        event.preventDefault();
-
-        const response = await fetch('/api/geotags?keyword=' + searchterm, {
-            method: 'GET',
-        })
-
-        const taglist = await response.json();
-        //updateLocation();
-    })
-
-
+    document.getElementById("taggingForm").addEventListener("submit", submitTaggingForm);
+    document.getElementById("discoveryForm").addEventListener("submit", submitDiscoveryForm);
 });
 
 function removeElement(id) {
     var elem = document.getElementById(id);
     return elem.parentNode.removeChild(elem);
 }
+
